@@ -18,8 +18,8 @@ if not string.find(gameName, "Blox Fruits") then
     KickFrame.BackgroundTransparency = 0.2
 
     local UICorner = Instance.new("UICorner")
-    UICorner.CornerRadius = UDim.new(0, 12)
     UICorner.Parent = KickFrame
+    UICorner.CornerRadius = UDim.new(0, 12) -- Moved after setting parent to fix error
 
     KickMessage.Parent = KickFrame
     KickMessage.Size = UDim2.new(1, -20, 0.6, 0)
@@ -41,8 +41,8 @@ if not string.find(gameName, "Blox Fruits") then
     OkayButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 
     local ButtonCorner = Instance.new("UICorner")
-    ButtonCorner.CornerRadius = UDim.new(0, 8)
     ButtonCorner.Parent = OkayButton
+    ButtonCorner.CornerRadius = UDim.new(0, 8)
 
     OkayButton.MouseButton1Click:Connect(function()
         ScreenGui:Destroy()
@@ -77,8 +77,8 @@ FirstUI.BackgroundTransparency = 0.2
 FirstUI.Visible = true
 
 local FirstUICorner = Instance.new("UICorner")
-FirstUICorner.CornerRadius = UDim.new(0, 12)
 FirstUICorner.Parent = FirstUI
+FirstUICorner.CornerRadius = UDim.new(0, 12)
 
 -- Second Animation UI (Instant Black Background)
 SecondUI.Parent = ScreenGui
@@ -106,8 +106,8 @@ MainFrame.Size = UDim2.new(0, 900, 0, 500)
 MainFrame.Position = UDim2.new(0.5, -450, 0.5, -250)
 MainFrame.Visible = false
 
-UICorner.CornerRadius = UDim.new(0, 12)
 UICorner.Parent = MainFrame
+UICorner.CornerRadius = UDim.new(0, 12)
 
 -- Title
 Title.Parent = MainFrame
