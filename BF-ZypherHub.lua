@@ -88,6 +88,9 @@ SecondUI.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 SecondUI.BackgroundTransparency = 0
 SecondUI.Visible = false
 
+UICorner.Parent = SecondUI
+UICorner.CornerRadius = UDim.new(0, 12)
+
 -- Animation Text (Appears from Middle)
 AnimationText.Parent = SecondUI
 AnimationText.Size = UDim2.new(0, 400, 0, 50)
