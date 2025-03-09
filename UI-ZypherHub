@@ -16,19 +16,13 @@ local Title = Instance.new("TextLabel")
 local HideButton = Instance.new("TextButton")
 local CategoryFrame = Instance.new("Frame")
 
-local categories = {
-    "🏘️ General", "🌾 Farm", "👹 Bosses", "🌊 Sea Events", "👀 Visual", "📦 Items", 
-    "⚔️ PVP", "✈️ Travel", "🍏 Fruits", "⚙️ Settings", "🛒 Shop", "🥋 Dojo Quest"
-}
-
-local CategoryButtons = {}
-local CategoryFrames = {}
-
 ScreenGui.Parent = game.CoreGui
 
+-- First UI (Smooth Transparency)
 FirstUI.Parent = ScreenGui
 FirstUI.Size = UDim2.new(0, 900, 0, 500)
 FirstUI.Position = UDim2.new(0.5, -450, 0.5, -250)
+FirstUI.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 FirstUI.BackgroundTransparency = 0.2
 FirstUI.Visible = true
 
@@ -36,9 +30,11 @@ local FirstUICorner = Instance.new("UICorner")
 FirstUICorner.Parent = FirstUI
 FirstUICorner.CornerRadius = UDim.new(0, 12)
 
+-- Second UI (100% Black, Smooth Black)
 SecondUI.Parent = ScreenGui
 SecondUI.Size = UDim2.new(0, 900, 0, 500)
 SecondUI.Position = UDim2.new(0.5, -450, 0.5, -250)
+SecondUI.BackgroundColor3 = Color3.fromRGB(0, 0, 0) -- Fully Black, No Transparency
 SecondUI.BackgroundTransparency = 0
 SecondUI.Visible = false
 
@@ -56,8 +52,10 @@ AnimationText.TextColor3 = Color3.fromRGB(255, 255, 255)
 AnimationText.BackgroundTransparency = 1
 AnimationText.Visible = false
 
+-- Main UI (Same Transparency as First UI, Separated)
 MainFrame.Parent = ScreenGui
-MainFrame.BackgroundTransparency = 0.1
+MainFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+MainFrame.BackgroundTransparency = 0.2
 MainFrame.Size = UDim2.new(0, 900, 0, 500)
 MainFrame.Position = UDim2.new(0.5, -450, 0.5, -250)
 MainFrame.Visible = false
@@ -75,7 +73,9 @@ Title.Font = Enum.Font.GothamBold
 Title.TextSize = 18
 Title.TextXAlignment = Enum.TextXAlignment.Left
 
+-- Hide/Show UI Button (Smooth Black)
 HideButton.Parent = ScreenGui
+HideButton.BackgroundColor3 = Color3.fromRGB(10, 10, 10) -- Smooth Black
 HideButton.Size = UDim2.new(0, 90, 0, 40)
 HideButton.Position = UDim2.new(0.02, 0, 0.3, 0)
 HideButton.Text = "❮"
@@ -94,16 +94,18 @@ HideButton.MouseButton1Click:Connect(function()
     HideButton.Text = UIVisible and "❮" or "❯"
 end)
 
+-- Category System UI
 CategoryFrame.Parent = MainFrame
 CategoryFrame.Size = UDim2.new(0, 200, 0, 400)
 CategoryFrame.Position = UDim2.new(0, 10, 0, 50)
 CategoryFrame.BackgroundTransparency = 1  
 
-local function HideAllCategories()
-    for _, frame in pairs(CategoryFrames) do
-        frame.Visible = false
-    end
-end
+local Categories = {
+    "🏘️ General", "🌾 Farm", "👹 Bosses", "🌊 Sea Events", "👀 Visual", "📦 Items", 
+    "⚔️ PVP", "✈️ Travel", "🍏 Fruits", "⚙️ Settings", "🛒 Shop", "🥋 Dojo Quest"
+}
+
+local CategoryButtons = {}
 
 local function CreateCategoryButton(name, index)
     local button = Instance.new("TextButton")
@@ -121,26 +123,14 @@ local function CreateCategoryButton(name, index)
             btn.BackgroundTransparency = 0.6
         end
         button.BackgroundTransparency = 0.2  
-
-        HideAllCategories()
-        CategoryFrames[name].Visible = true
     end)
 
     return button
 end
 
-for index, categoryName in ipairs(categories) do
+for index, categoryName in ipairs(Categories) do
     CategoryButtons[categoryName] = CreateCategoryButton(categoryName, index)
-    local frame = Instance.new("Frame", MainFrame)
-    frame.Size = UDim2.new(0, 680, 0, 400)
-    frame.Position = UDim2.new(0, 220, 0, 50)
-    frame.BackgroundTransparency = 0.2  
-    frame.Visible = false
-    CategoryFrames[categoryName] = frame
 end
-
-CategoryFrames["🏘️ General"].Visible = true
-CategoryButtons["🏘️ General"].BackgroundTransparency = 0.2
 
 task.wait(2)
 SecondUI.Visible = true
