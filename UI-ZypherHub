@@ -1,1 +1,161 @@
+if _G.ZypherHubLoaded then return end
+_G.ZypherHubLoaded = true
 
+local TweenService = game:GetService("TweenService")
+local UserInputService = game:GetService("UserInputService")
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+
+local ScreenGui = Instance.new("ScreenGui")
+local FirstUI = Instance.new("Frame")
+local SecondUI = Instance.new("Frame")
+local AnimationText = Instance.new("TextLabel")
+local MainFrame = Instance.new("Frame")
+local UICorner = Instance.new("UICorner")
+local Title = Instance.new("TextLabel")
+local HideButton = Instance.new("TextButton")
+local CategoryFrame = Instance.new("Frame")
+
+local categories = {
+    "🏘️ General", "🌾 Farm", "👹 Bosses", "🌊 Sea Events", "👀 Visual", "📦 Items", 
+    "⚔️ PVP", "✈️ Travel", "🍏 Fruits", "⚙️ Settings", "🛒 Shop", "🥋 Dojo Quest"
+}
+
+local CategoryButtons = {}
+local CategoryFrames = {}
+
+ScreenGui.Parent = game.CoreGui
+
+FirstUI.Parent = ScreenGui
+FirstUI.Size = UDim2.new(0, 900, 0, 500)
+FirstUI.Position = UDim2.new(0.5, -450, 0.5, -250)
+FirstUI.BackgroundTransparency = 0.2
+FirstUI.Visible = true
+
+local FirstUICorner = Instance.new("UICorner")
+FirstUICorner.Parent = FirstUI
+FirstUICorner.CornerRadius = UDim.new(0, 12)
+
+SecondUI.Parent = ScreenGui
+SecondUI.Size = UDim2.new(0, 900, 0, 500)
+SecondUI.Position = UDim2.new(0.5, -450, 0.5, -250)
+SecondUI.BackgroundTransparency = 0
+SecondUI.Visible = false
+
+local SecondUICorner = Instance.new("UICorner")
+SecondUICorner.Parent = SecondUI
+SecondUICorner.CornerRadius = UDim.new(0, 12)
+
+AnimationText.Parent = SecondUI
+AnimationText.Size = UDim2.new(0, 400, 0, 50)
+AnimationText.Position = UDim2.new(0.5, -200, 0.5, -25)
+AnimationText.Text = "Zypher Hub Premium Script"
+AnimationText.Font = Enum.Font.GothamBold
+AnimationText.TextSize = 22
+AnimationText.TextColor3 = Color3.fromRGB(255, 255, 255)
+AnimationText.BackgroundTransparency = 1
+AnimationText.Visible = false
+
+MainFrame.Parent = ScreenGui
+MainFrame.BackgroundTransparency = 0.1
+MainFrame.Size = UDim2.new(0, 900, 0, 500)
+MainFrame.Position = UDim2.new(0.5, -450, 0.5, -250)
+MainFrame.Visible = false
+
+UICorner.Parent = MainFrame
+UICorner.CornerRadius = UDim.new(0, 12)
+
+Title.Parent = MainFrame
+Title.Text = "Zypher Hub | Premium Script Bloxfruit"
+Title.Size = UDim2.new(0, 400, 0, 35)
+Title.Position = UDim2.new(0, 50, 0, 5)
+Title.BackgroundTransparency = 1
+Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+Title.Font = Enum.Font.GothamBold
+Title.TextSize = 18
+Title.TextXAlignment = Enum.TextXAlignment.Left
+
+HideButton.Parent = ScreenGui
+HideButton.Size = UDim2.new(0, 90, 0, 40)
+HideButton.Position = UDim2.new(0.02, 0, 0.3, 0)
+HideButton.Text = "❮"
+HideButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+HideButton.Font = Enum.Font.GothamBold
+HideButton.TextSize = 20
+HideButton.Visible = true
+
+local UIVisible = true
+local AnimationFinished = false
+
+HideButton.MouseButton1Click:Connect(function()
+    if not AnimationFinished then return end
+    UIVisible = not UIVisible
+    MainFrame.Visible = UIVisible
+    HideButton.Text = UIVisible and "❮" or "❯"
+end)
+
+CategoryFrame.Parent = MainFrame
+CategoryFrame.Size = UDim2.new(0, 200, 0, 400)
+CategoryFrame.Position = UDim2.new(0, 10, 0, 50)
+CategoryFrame.BackgroundTransparency = 1  
+
+local function HideAllCategories()
+    for _, frame in pairs(CategoryFrames) do
+        frame.Visible = false
+    end
+end
+
+local function CreateCategoryButton(name, index)
+    local button = Instance.new("TextButton")
+    button.Parent = CategoryFrame
+    button.Size = UDim2.new(1, 0, 0, 30)
+    button.Position = UDim2.new(0, 0, 0, (index - 1) * 30)
+    button.Text = name
+    button.Font = Enum.Font.GothamBold
+    button.TextSize = 18
+    button.TextColor3 = Color3.fromRGB(255, 255, 255)
+    button.BackgroundTransparency = 0.6  
+
+    button.MouseButton1Click:Connect(function()
+        for _, btn in pairs(CategoryButtons) do
+            btn.BackgroundTransparency = 0.6
+        end
+        button.BackgroundTransparency = 0.2  
+
+        HideAllCategories()
+        CategoryFrames[name].Visible = true
+    end)
+
+    return button
+end
+
+for index, categoryName in ipairs(categories) do
+    CategoryButtons[categoryName] = CreateCategoryButton(categoryName, index)
+    local frame = Instance.new("Frame", MainFrame)
+    frame.Size = UDim2.new(0, 680, 0, 400)
+    frame.Position = UDim2.new(0, 220, 0, 50)
+    frame.BackgroundTransparency = 0.2  
+    frame.Visible = false
+    CategoryFrames[categoryName] = frame
+end
+
+CategoryFrames["🏘️ General"].Visible = true
+CategoryButtons["🏘️ General"].BackgroundTransparency = 0.2
+
+task.wait(2)
+SecondUI.Visible = true
+FirstUI.Visible = false
+task.wait(2.5)
+AnimationText.Visible = true
+task.wait(2.5)
+MainFrame.Visible = true
+
+TweenService:Create(SecondUI, TweenInfo.new(0.5, Enum.EasingStyle.Sine, Enum.EasingDirection.Out), {
+    Size = UDim2.new(0, 0, 0, 0),
+    Position = UDim2.new(0.5, 0, 0.5, 0)
+}):Play()
+
+task.wait(0.5)
+SecondUI.Visible = false
+AnimationFinished = true
+HideButton.Visible = true
