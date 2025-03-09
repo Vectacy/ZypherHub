@@ -15,6 +15,7 @@ local UICorner = Instance.new("UICorner")
 local Title = Instance.new("TextLabel")
 local HideButton = Instance.new("TextButton")
 local CategoryFrame = Instance.new("Frame")
+local ContentFrame = Instance.new("Frame") -- Added frame for category features
 
 ScreenGui.Parent = game.CoreGui
 
@@ -34,7 +35,7 @@ FirstUICorner.CornerRadius = UDim.new(0, 12)
 SecondUI.Parent = ScreenGui
 SecondUI.Size = UDim2.new(0, 900, 0, 500)
 SecondUI.Position = UDim2.new(0.5, -450, 0.5, -250)
-SecondUI.BackgroundColor3 = Color3.fromRGB(0, 0, 0) -- Fully Black, No Transparency
+SecondUI.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 SecondUI.BackgroundTransparency = 0
 SecondUI.Visible = false
 
@@ -73,9 +74,9 @@ Title.Font = Enum.Font.GothamBold
 Title.TextSize = 18
 Title.TextXAlignment = Enum.TextXAlignment.Left
 
--- Hide/Show UI Button (Smooth Black)
+-- Hide/Show UI Button
 HideButton.Parent = ScreenGui
-HideButton.BackgroundColor3 = Color3.fromRGB(10, 10, 10) -- Smooth Black
+HideButton.BackgroundColor3 = Color3.fromRGB(10, 10, 10)
 HideButton.Size = UDim2.new(0, 90, 0, 40)
 HideButton.Position = UDim2.new(0.02, 0, 0.3, 0)
 HideButton.Text = "❮"
@@ -100,6 +101,13 @@ CategoryFrame.Size = UDim2.new(0, 200, 0, 400)
 CategoryFrame.Position = UDim2.new(0, 10, 0, 50)
 CategoryFrame.BackgroundTransparency = 1  
 
+-- Content Frame (for displaying features)
+ContentFrame.Parent = MainFrame
+ContentFrame.Size = UDim2.new(0, 650, 0, 400)
+ContentFrame.Position = UDim2.new(0, 220, 0, 50)
+ContentFrame.BackgroundTransparency = 1  
+ContentFrame.Visible = false  
+
 local Categories = {
     "🏘️ General", "🌾 Farm", "👹 Bosses", "🌊 Sea Events", "👀 Visual", "📦 Items", 
     "⚔️ PVP", "✈️ Travel", "🍏 Fruits", "⚙️ Settings", "🛒 Shop", "🥋 Dojo Quest"
@@ -119,10 +127,15 @@ local function CreateCategoryButton(name, index)
     button.BackgroundTransparency = 0.6  
 
     button.MouseButton1Click:Connect(function()
+        -- Reset all buttons to default transparency
         for _, btn in pairs(CategoryButtons) do
             btn.BackgroundTransparency = 0.6
         end
+        -- Highlight selected button
         button.BackgroundTransparency = 0.2  
+        
+        -- Show the ContentFrame (so it displays the Auto Farm feature)
+        ContentFrame.Visible = true
     end)
 
     return button
@@ -149,3 +162,9 @@ task.wait(0.5)
 SecondUI.Visible = false
 AnimationFinished = true
 HideButton.Visible = true
+
+return {
+    MainFrame = MainFrame,
+    CategoryFrame = CategoryFrame,
+    ContentFrame = ContentFrame
+}
